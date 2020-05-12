@@ -2,8 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 
-class Texto extends React.Component{
-  
+class Texto extends React.Component {
+  render() {
+
+    const { texto } = this.props
+
+    return <Text>{texto}</Text>
+  }
 }
 
 export default class App extends React.Component {
@@ -11,7 +16,9 @@ export default class App extends React.Component {
     console.log('Hola Mundo!!')
     return (
       <View style={styles.container}>
-        <Text>Hola Mundo!</Text>
+        <Texto texto='Hola Mundo' />
+        <Texto texto='Adios mundo cruel' />
+        <Texto texto='Chanchito Feliz!' />
       </View>
     );
   }
