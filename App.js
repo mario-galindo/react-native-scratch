@@ -35,21 +35,18 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   text: {
-    flex:1,
     height:100,
     width:100,
     color: 'red',
     backgroundColor:'brown'
   },
   text2: {
-    flex:2,
     height:100,
     width:100,
     color: 'red',
     backgroundColor:'yellow'
   },
   text3: {
-    flex:3,
     height:100,
     width:100,
     color: 'red',
@@ -57,8 +54,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    flexDirection:'column',
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'space-evenly'
   },
 });
