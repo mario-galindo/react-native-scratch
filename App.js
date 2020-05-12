@@ -17,7 +17,7 @@ class Texto extends React.Component {
   render() {
 
     const { texto } = this.state
-    return <Text onPress={() => {this.handlePress()}}>{texto}</Text>
+    return <Text onPress={() => { this.handlePress() }}>{texto}</Text>
   }
 }
 
@@ -25,7 +25,7 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Texto />
+        <Text style={styles.text}>Mario</Text>
         <Texto />
         <Texto />
         <Texto />
@@ -35,10 +35,13 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  text: {
+    color: 'red'
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
 });
