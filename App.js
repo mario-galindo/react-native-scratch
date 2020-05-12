@@ -26,9 +26,8 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.text}>Mario</Text>
-        <Texto />
-        <Texto />
-        <Texto />
+        <Text style={styles.text2}>Mario</Text>
+        <Text style={styles.text3}>Mario</Text>
       </View>
     );
   }
@@ -36,7 +35,25 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   text: {
-    color: 'red'
+    flex:1,
+    height:100,
+    width:100,
+    color: 'red',
+    backgroundColor:'brown'
+  },
+  text2: {
+    flex:2,
+    height:100,
+    width:100,
+    color: 'red',
+    backgroundColor:'yellow'
+  },
+  text3: {
+    flex:3,
+    height:100,
+    width:100,
+    color: 'red',
+    backgroundColor:'orange'
   },
   container: {
     flex: 1,
