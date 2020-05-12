@@ -3,22 +3,32 @@ import { StyleSheet, Text, View } from 'react-native';
 
 
 class Texto extends React.Component {
+
+  state = {
+    texto: 'Hola Mundo!'
+  };
+
+  handlePress = () => {
+    this.setState({
+      texto: 'Adios mundo cruel!'
+    })
+  }
+
   render() {
 
-    const { texto } = this.props
-
-    return <Text>{texto}</Text>
+    const { texto } = this.state
+    return <Text onPress={() => {this.handlePress()}}>{texto}</Text>
   }
 }
 
 export default class App extends React.Component {
   render() {
-    console.log('Hola Mundo!!')
     return (
       <View style={styles.container}>
-        <Texto texto='Hola Mundo' />
-        <Texto texto='Adios mundo cruel' />
-        <Texto texto='Chanchito Feliz!' />
+        <Texto />
+        <Texto />
+        <Texto />
+        <Texto />
       </View>
     );
   }
