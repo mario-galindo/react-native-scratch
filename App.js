@@ -1,49 +1,41 @@
 import React from 'react';
-import { View, Modal, Button, Alert, StyleSheet, AsyncStorage } from 'react-native';
-
+import { View, Alert, Button, StyleSheet, Text } from 'react-native';
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flex: 1,
     justifyContent: "center",
-    alignItems: "center"
-  },
-  cyan: {
-    backgroundColor: 'cyan'
-  },
-  gray: {
-    backgroundColor: 'gray'
-  },
-  margin: {
-    margin: 55
+    alignItems: "center",
+    flex: 1,
+    display: 'flex'
   }
 })
 
 export default class App extends React.Component {
 
   state = {
-    visible: false
+    location: {coords:{}},
+    errorMessage: null
   }
 
-  constructor(props){
-    super(props)
-    this.traeDato()
-  }
+  getLocation = async () => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION)
+    // Alert.alert("Permisos", status)
+    if (status !== 'granted') {
+      return this.setState({ errorMessage: 'Permisos no aceptados' })
+    }
 
-  traeDato = async () => {
-    const dato = await AsyncStorage.getItem('dato')
-    Alert.alert('Dato!',dato)
-  }
-
-  handlePress = async () => {
-    await AsyncStorage.setItem('dato','Este es mi dato')
+    const location = await Location.getCurrentPositionAsync();
+    // console.log('location',location)
+    this.setState({ location });
   }
 
   render() {
     return (
-      <View style={[styles.container, styles.cyan]}>
-        <Button title="Set Value" onPress={this.handlePress} />
+      <View style={styles.container}>
+        <Text>{this.state.location.coords.latitude} {this.state.location.coords.longitude}</Text>
+        <Button onPress={this.getLocation} title="Request Location"></Button>
       </View>
     )
   }
