@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput,TouchableOpacity } from 'react-native';
 
 
 export default class App extends React.Component {
@@ -7,6 +7,10 @@ export default class App extends React.Component {
   state = {};
   handleChange = text => {
     this.setState({ text });
+  }
+
+  handlePress = () => {
+    alert(`Tu Nombre es: ${this.state.text}`)
   }
 
 
@@ -20,7 +24,9 @@ export default class App extends React.Component {
           placeholder="Ingrese su nombre"
           onChangeText={this.handleChange}
         />
-        <Text>{text && `Mi nombre es: ${text}`}</Text>
+        <TouchableOpacity onPress={this.handlePress} style={styles.button}> 
+          <Text>Aceptar</Text>
+          </TouchableOpacity>
       </View>
     );
   }
@@ -52,4 +58,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-evenly'
   },
+  button:{
+    backgroundColor:'cyan',
+    height:50,
+    padding:15
+  }
 });
