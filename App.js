@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Modal, Button, Alert, StyleSheet, Text, Image } from 'react-native';
+import { View, Modal, Button, Alert, StyleSheet, AsyncStorage } from 'react-native';
 
 
 const styles = StyleSheet.create({
@@ -26,23 +26,24 @@ export default class App extends React.Component {
     visible: false
   }
 
-  handlePress = () => {
-    this.setState({
-      visible: !this.state.visible
-    })
+  constructor(props){
+    super(props)
+    this.traeDato()
+  }
+
+  traeDato = async () => {
+    const dato = await AsyncStorage.getItem('dato')
+    Alert.alert('Dato!',dato)
+  }
+
+  handlePress = async () => {
+    await AsyncStorage.setItem('dato','Este es mi dato')
   }
 
   render() {
     return (
       <View style={[styles.container, styles.cyan]}>
-        <Modal animationType="slide" transparent={true} visible={this.state.visible}>
-          <View style={[styles.container, styles.gray, styles.margin]}>
-            <Button title="Cerrar Modal" onPress={this.handlePress} />
-          </View>
-        </Modal>
-        {/* <Image source={require('./assets/icon.png')}></Image> */}
-        <Image source={{ uri: 'https://placekitten.com/300/300' }} style={{ width: 300, height: 300 }}></Image>
-        <Button title="Open Modal" onPress={this.handlePress} />
+        <Button title="Set Value" onPress={this.handlePress} />
       </View>
     )
   }
