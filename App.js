@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Picker } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,39 +12,21 @@ const styles = StyleSheet.create({
 
 export default class App extends React.Component {
 
-  state = {
-    loading: true,
-    users: [],
-  }
-
-  constructor(props) {
-    super(props)
-    this.fetchUsers()
-  }
-
-  fetchUsers = async () => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/users')
-    const res = await response.json()
-    const users = res.map(x => ({ ...x, key: String(x.id) }))
-    this.setState({ users, loading: false });
-  }
+  state = {}
 
   render() {
-
-    const { loading, users } = this.state;
-
-    if (loading) {
-      return (
-        <View style={styles.container}>
-          <Text>Loading..</Text>
-        </View>
-      )
-    } else {
-      return <View>
-        <FlatList
-          data={users}
-          renderItem={({ item }) => <Text>{item.name}</Text>} />
+    return (
+      <View>
+        <Picker
+          selectedValue={this.state.value || 'id_1'}
+          style={{ height: 70, width: 150 }}
+          onValueChange={(value, index) => {
+            this.setState({ value })
+          }}>
+          <Picker.Item label="Chanchito Feliz" value="id_1" />
+          <Picker.Item label="Fluffykins" value="id_2" />
+        </Picker>
       </View>
-    }
+    )
   }
 }
