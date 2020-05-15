@@ -1,40 +1,50 @@
 import React from 'react';
-import { Text, View, SectionList } from 'react-native';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
+
+const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  }
+})
 
 export default class App extends React.Component {
 
+  state = {
+    loading: true,
+    users: [],
+  }
+
+  constructor(props) {
+    super(props)
+    this.fetchUsers()
+  }
+
+  fetchUsers = async () => {
+    const response = await fetch('https://jsonplaceholder.typicode.com/users')
+    const res = await response.json()
+    const users = res.map(x => ({ ...x, key: String(x.id) }))
+    this.setState({ users, loading: false });
+  }
+
   render() {
-    return (
-      <View>
-        <SectionList
-          sections={[
-            {
-              title: 'Nombres', 
-              data: [
-                { name: 'Chanchito Feliz', key: "1" },
-                { name: 'Fluffy', key: "2" },
-                { name: 'Mr Algore', key: "3" },
-                { name: 'Buttersnip', key: "4" },
-                { name: 'Feliper', key: "5" }
-              ]
-            },
-            {
-              title: 'Eduardos', 
-              data: [
-                { name: 'Eduardo', key: "6" },
-                { name: 'Eduardo', key: "7" },
-                { name: 'Eduardo', key: "8" },
-                { name: 'Eduardo', key: "9" },
-                { name: 'Eduardo', key: "10" },
-                { name: 'Eduardo', key: "11" },
-                { name: 'Eduardo', key: "12" }
-              ]
-            }
-          ]}
-        renderItem={({item}) => <Text style={{fontSize:40}}>{item.name}</Text>}
-        renderSectionHeader={({section}) => <Text style={{fontSize:40, backgroundColor:'gray'}}>{section.title}</Text>}
-        />
+
+    const { loading, users } = this.state;
+
+    if (loading) {
+      return (
+        <View style={styles.container}>
+          <Text>Loading..</Text>
+        </View>
+      )
+    } else {
+      return <View>
+        <FlatList
+          data={users}
+          renderItem={({ item }) => <Text>{item.name}</Text>} />
       </View>
-    );
+    }
   }
 }
