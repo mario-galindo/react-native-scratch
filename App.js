@@ -1,33 +1,26 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
 
-
-class Texto extends React.Component {
-
-  state = {
-    texto: 'Hola Mundo!'
-  };
-
-  handlePress = () => {
-    this.setState({
-      texto: 'Adios mundo cruel!'
-    })
-  }
-
-  render() {
-
-    const { texto } = this.state
-    return <Text onPress={() => { this.handlePress() }}>{texto}</Text>
-  }
-}
 
 export default class App extends React.Component {
+
+  state = {};
+  handleChange = text => {
+    this.setState({ text });
+  }
+
+
   render() {
+
+    const { text } = this.state
+
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Mario</Text>
-        <Text style={styles.text2}>Mario</Text>
-        <Text style={styles.text3}>Mario</Text>
+        <TextInput
+          placeholder="Ingrese su nombre"
+          onChangeText={this.handleChange}
+        />
+        <Text>{text && `Mi nombre es: ${text}`}</Text>
       </View>
     );
   }
@@ -35,26 +28,26 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   text: {
-    height:100,
-    width:100,
+    height: 100,
+    width: 100,
     color: 'red',
-    backgroundColor:'brown'
+    backgroundColor: 'brown'
   },
   text2: {
-    height:100,
-    width:100,
+    height: 100,
+    width: 100,
     color: 'red',
-    backgroundColor:'yellow'
+    backgroundColor: 'yellow'
   },
   text3: {
-    height:100,
-    width:100,
+    height: 100,
+    width: 100,
     color: 'red',
-    backgroundColor:'orange'
+    backgroundColor: 'orange'
   },
   container: {
     flex: 1,
-    flexDirection:'column',
+    flexDirection: 'column',
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'space-evenly'
