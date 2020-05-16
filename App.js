@@ -1,42 +1,50 @@
-import React from 'react';
-import { View, Alert, Button, StyleSheet, Text } from 'react-native';
-import * as Permissions from 'expo-permissions';
-import * as Location from 'expo-location';
+import React, { useState, useEffect } from 'react';
+import { Text, View, TouchableOpacity } from 'react-native';
+import { Camera } from 'expo-camera';
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-    display: 'flex'
+export default function App() {
+  const [hasPermission, setHasPermission] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
+
+  if (hasPermission === null) {
+    return <View />;
   }
-})
-
-export default class App extends React.Component {
-
-  state = {
-    location: {coords:{}},
-    errorMessage: null
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
   }
-
-  getLocation = async () => {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION)
-    // Alert.alert("Permisos", status)
-    if (status !== 'granted') {
-      return this.setState({ errorMessage: 'Permisos no aceptados' })
-    }
-
-    const location = await Location.getCurrentPositionAsync();
-    // console.log('location',location)
-    this.setState({ location });
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>{this.state.location.coords.latitude} {this.state.location.coords.longitude}</Text>
-        <Button onPress={this.getLocation} title="Request Location"></Button>
-      </View>
-    )
-  }
+  return (
+    <View style={{ flex: 1 }}>
+      <Camera style={{ flex: 1 }} type={type}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'transparent',
+            flexDirection: 'row',
+          }}>
+          <TouchableOpacity
+            style={{
+              flex: 0.1,
+              alignSelf: 'flex-end',
+              alignItems: 'center',
+            }}
+            onPress={() => {
+              setType(
+                type === Camera.Constants.Type.back
+                  ? Camera.Constants.Type.front
+                  : Camera.Constants.Type.back
+              );
+            }}>
+            <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
+          </TouchableOpacity>
+        </View>
+      </Camera>
+    </View>
+  );
 }
