@@ -1,28 +1,33 @@
-import React, { useState, useEffect } from 'react'
+import React, { useReducer } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+
+const initialState = {
+  cont: 0
+}
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'incrementar': {
+      return { cont: state.cont + 1 }
+    }
+    case 'decrementar': {
+      return { cont: state.cont - 1 }
+    }
+    default: {
+      return state
+    }
+  }
+}
 
 export default function App() {
 
-  const [users, setUsers] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  const getUsers = async () => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/users')
-    const data = await response.json()
-    setUsers(data)
-    setLoading(false)
-  }
-
-  useEffect(()=>{
-    getUsers()
-  },[])
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   return (
     <View style={styles.container}>
-      <Text 
-        onPress={() => setCont(cont + 1)} 
-        style={styles.text}>{loading ? 'Cargando...' : users[0].name}
-      </Text>
+      <Text style={styles.operation} onPress={() => dispatch({ type: 'incrementar' })}>+</Text>
+      <Text style={styles.text}>{state.cont}</Text>
+      <Text style={styles.operation} onPress={() => dispatch({ type: 'decrementar' })}>-</Text>
     </View>
   );
 }
@@ -36,5 +41,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 24
+  },
+  operation:{
+    fontSize:30
   }
 })
