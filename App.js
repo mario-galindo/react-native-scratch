@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useMemo } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 const initialState = {
@@ -19,9 +19,21 @@ const reducer = (state, action) => {
   }
 }
 
+const users = [{ name: 'lala', age: 2 }, { name: 'lele', age: 5 }]
+
 export default function App() {
 
   const [state, dispatch] = useReducer(reducer, initialState)
+  const totalAge = useMemo(() => {
+    let age = 0;
+    console.log('Calculando Edad...')
+    users.forEach(x => {
+      age = age + x.age
+    })
+    return age
+  }, [users])
+
+  console.log('Edad total:', totalAge)
 
   return (
     <View style={styles.container}>
@@ -42,7 +54,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 24
   },
-  operation:{
-    fontSize:30
+  operation: {
+    fontSize: 30
   }
 })
