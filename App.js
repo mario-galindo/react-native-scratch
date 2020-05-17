@@ -3,18 +3,26 @@ import { StyleSheet, Text, View } from 'react-native'
 
 export default function App() {
 
-  const [cont, setCont] = useState(0)
+  const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false)
-    }, 1000);
+  const getUsers = async () => {
+    const response = await fetch('https://jsonplaceholder.typicode.com/users')
+    const data = await response.json()
+    setUsers(data)
+    setLoading(false)
+  }
+
+  useEffect(()=>{
+    getUsers()
   },[])
 
   return (
     <View style={styles.container}>
-      <Text onPress={() => setCont(cont + 1)} style={styles.text}>{loading ? 'Cargando...' : cont}</Text>
+      <Text 
+        onPress={() => setCont(cont + 1)} 
+        style={styles.text}>{loading ? 'Cargando...' : users[0].name}
+      </Text>
     </View>
   );
 }
